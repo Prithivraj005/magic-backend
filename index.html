@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Learn Magic with PRITHIV</title>
+  <link href="https://fonts.googleapis.com/css2?family=Allura&family=Great+Vibes&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    /* (Your full CSS remains unchanged) */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Cormorant Garamond', serif; scroll-behavior: smooth; }
+    #logo-intro {
+      width: 100%;
+      height: 100vh;
+      background-color: #000000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+      text-align: center;
+    }
+    #logo-intro img {
+      height: 420px;
+      width: 420px;
+      object-fit: cover;
+      border-radius: 50%;
+      user-select: none;
+      pointer-events: none;
+      opacity: 1;
+      transition: transform 2s ease-in-out;
+    }
+    #logo-intro p {
+      font-size: 1.5rem;
+      color: #ffffff;
+      font-weight: bold;
+      margin-top: 30px;
+      letter-spacing: 1px;
+      user-select: none;
+      opacity: 0;
+      transition: opacity 1s ease-in;
+    }
+    #logo-intro p.fade-in { opacity: 1; }
+    #main-site { display: none; animation: fadeIn 1s ease-in-out forwards; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    body.background {
+      background-image: url('819F0OYicML.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      backdrop-filter: blur(1px);
+      color: #f5f5f5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container { width: 90%; max-width: 1100px; margin: 0 auto; }
+    .form-wrapper {
+      margin-top: 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+      width: 100%;
+    }
+
+    .form-section {
+      max-width: 420px;
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 60px 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px #000000cc;
+      width: 100%;
+    }
+
+    .form-section h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .login-form input {
+      width: 100%;
+      padding: 12px;
+      margin: 12px 0;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      background-color: #eee;
+    }
+
+    .login-form button {
+      background-color: #0047ab;
+      color: white;
+      padding: 12px 30px;
+      font-size: 1.1rem;
+      border: 2px solid #ffd700;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      font-weight: 700;
+      transition: 0.3s;
+    }
+
+    .login-form button:hover {
+      background-color: #ffd700;
+      color: #0047ab;
+      box-shadow: 0 0 15px #ffd700cc;
+    }
+
+    #signup { display: none; }
+    #login a { color: white; }
+
+    #dashboard {
+      display: none;
+      text-align: center;
+      padding: 100px 20px;
+    }
+
+    #dashboard h2 {
+      font-size: 2.5rem;
+      color: #ffd700;
+      text-shadow: 0 0 10px #000;
+    }
+
+    footer {
+      background-color: #2e1a47;
+      color: #d9d9d9;
+      text-align: center;
+      padding: 18px 10px;
+      font-size: 0.95rem;
+      letter-spacing: 1.2px;
+      margin-top: auto;
+      width: 100%;
+    }
+
+    @media (max-width: 600px) {
+      #logo-intro img { width: 250px; height: 250px; }
+      #logo-intro p { font-size: 1.2rem; margin-top: 20px; padding: 0 20px; }
+      .form-section { padding: 40px 20px; }
+      .login-form button { font-size: 1rem; padding: 10px 20px; }
+      #dashboard h2 { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+  <div id="logo-intro">
+    <img src="logo.jpg" alt="PRITHIV Logo" />
+    <p>PRESS ENTER</p>
+  </div>
+
+  <div id="main-site">
+    <div class="form-wrapper">
+      <section id="login" class="form-section">
+        <h2>Login to Your Magic Account</h2>
+        <div class="login-form">
+          <form onsubmit="return false;">
+            <input id="login-username" type="text" placeholder="Username or Email" required />
+            <input id="login-password" type="password" placeholder="Password" required />
+            <button type="button" onclick="loginUser()">Login</button>
+            <p>Don't have an account? <a href="#" onclick="showSignup()">Sign up</a></p>
+          </form>
+        </div>
+      </section>
+
+      <section id="signup" class="form-section">
+        <h2>Create Your Magic Account</h2>
+        <div class="login-form">
+          <form onsubmit="return false;">
+            <input id="signup-name" type="text" placeholder="Full Name" required />
+            <input id="signup-email" type="email" placeholder="Email Address" required />
+            <input id="signup-username" type="text" placeholder="New Username" required />
+            <input id="signup-password" type="password" placeholder="New Password" required />
+            <input id="signup-confirm" type="password" placeholder="Confirm Password" required />
+            <button type="button" onclick="createAccount()">Create Account</button>
+          </form>
+        </div>
+      </section>
+    </div>
+
+    <section id="dashboard">
+      <h2 id="welcome-message">WELCOME, USERNAME</h2>
+    </section>
+  </div>
+<script>
+  function handleEnterTrigger() {
+    document.getElementById("logo-intro").style.display = "none";
+    document.getElementById("main-site").style.display = "block";
+    document.body.classList.add('background');
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const logo = document.querySelector('#logo-intro img');
+    const text = document.querySelector('#logo-intro p');
+    setTimeout(() => {
+      logo.style.transform = 'rotate(360deg)';
+      setTimeout(() => {
+        text.classList.add('fade-in');
+      }, 2000);
+    }, 2000);
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      handleEnterTrigger();
+    }
+  });
+
+  document.addEventListener("touchstart", handleEnterTrigger, { once: true });
+  document.addEventListener("click", handleEnterTrigger, { once: true });
+
+  function showSignup() {
+    document.getElementById("signup").style.display = "block";
+    document.getElementById("signup").scrollIntoView({ behavior: 'smooth' });
+  }
+
+
+  async function createAccount() {
+    const name = document.getElementById("signup-name").value.trim();
+    const email = document.getElementById("signup-email").value.trim();
+    const username = document.getElementById("signup-username").value.trim();
+    const password = document.getElementById("signup-password").value;
+    const confirm = document.getElementById("signup-confirm").value;
+
+    if (!name || !email || !username || !password || password !== confirm) {
+      alert("Please fill in all fields and ensure passwords match.");
+      return;
+    }
+
+    try {
+      const response = await fetch("https://backend-ub07.onrender.com/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, username, password })
+      });
+
+      if (response.ok) {
+        alert("Account created. You can now login.");
+        location.reload();
+      } else {
+        const data = await response.json();
+        alert("Signup failed: " + data.message);
+      }
+    } catch (err) {
+      alert("Signup failed. Server may not be running.");
+    }
+  }
+
+  
+  document.querySelector("#login button").addEventListener("click", async function () {
+    const inputUsername = document.getElementById("login-username").value.trim();
+    const inputPassword = document.getElementById("login-password").value;
+
+    try {
+      const response = await fetch("https://backend-ub07.onrender.com/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: inputUsername, password: inputPassword })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem("loggedInUser", inputUsername);
+        localStorage.setItem(inputUsername, JSON.stringify(data.user));
+        window.location.href = "dashboard.html";
+      } else {
+        const data = await response.json();
+        alert("Login failed: " + data.message);
+      }
+    } catch (err) {
+      alert("Login failed. Server may not be running.");
+    }
+  });
+</script>
+
+</body>
+</html>

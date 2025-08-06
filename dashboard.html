@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard - Learn Magic with PRITHIV</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Cormorant Garamond', serif;
+      background-color: #000;
+      color: #fff;
+      scroll-behavior: smooth;
+    }
+    .top-menu {
+      position: absolute;
+      top: 30px;
+      left: 40px;
+      display: flex;
+      gap: 30px;
+      z-index: 2;
+    }
+    .top-menu a {
+      text-decoration: none;
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+    .top-menu a:hover { color: #00aaff; }
+    .logout-btn {
+      position: fixed;
+      top: 20px;
+      right: 30px;
+      padding: 10px 20px;
+      background-color: #fff;
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 10;
+    }
+    .logout-btn:hover { background-color: #ccc; }
+
+    .logo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 80px 0;
+    }
+    .logo-container {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .logo img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .info-box {
+      display: none;
+      position: relative;
+      max-width: 600px;
+      margin: 0 auto 30px;
+      padding: 20px 30px;
+      background-color: #111;
+      border: 2px solid #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(255,255,255,0.3);
+      opacity: 0;
+      transform: scale(0.8);
+      transition: all 0.5s ease;
+      color: #fff;
+    }
+    .info-box.show {
+      display: block;
+      opacity: 1;
+      transform: scale(1);
+    }
+    .close-btn {
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .close-btn:hover { color: red; }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
+      gap: 30px;
+      max-width: 1000px;
+      margin: 80px auto 60px;
+      padding: 0 20px;
+    }
+    .card {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1/1;
+      background-color: #222;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(255,255,255,0.1);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.3s ease;
+    }
+    .card.visible { opacity: 1; transform: translateY(0); }
+    .card img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .card:hover img { opacity: 1; }
+    .card span { z-index: 1; transition: opacity 0.4s ease; }
+    .card:hover span { opacity: 0; }
+
+    .profile-popup {
+      position: fixed;
+      top: 80px;
+      left: 40px;
+      background-color: #111;
+      border: 2px solid #fff;
+      padding: 20px 30px;
+      border-radius: 10px;
+      display: none;
+      z-index: 20;
+      color: #fff;
+    }
+
+    .contact {
+      text-align: center;
+      margin: 60px auto 50px;
+    }
+    .contact h2 {
+      font-size: 1.8rem;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    .contact a {
+      margin: 0 15px;
+      display: inline-block;
+    }
+    .contact img {
+      width: 40px;
+      height: 40px;
+      filter: invert(1);
+      transition: transform 0.3s;
+    }
+    .contact img:hover { transform: scale(1.1); }
+
+    .reel-container {
+      display: none;
+      flex-direction: column;
+      gap: 20px;
+      max-width: 400px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    .reel-card {
+      background-color: #fff;
+      color: #000;
+      height: 200px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .back-btn {
+      margin-top: 20px;
+      padding: 8px 12px;
+      background-color: #fff;
+      color: #000;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .video-container {
+      display: none;
+      max-width: 400px;
+      margin: 40px auto;
+      text-align: center;
+      padding: 0 20px;
+    }
+    .video-container video {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      background: #000;
+    }
+
+    .info-content {
+      display: none;
+      background: #000;
+      padding: 40px 20px;
+      line-height: 1.6;
+    }
+    .info-content h2 {
+      color: #00aaff;
+      margin-bottom: 20px;
+      font-size: 2rem;
+    }
+    .info-content p {
+      margin-bottom: 20px;
+      font-size: 1.1rem;
+      color: #ddd;
+    }
+
+    @media (max-width: 600px) {
+      .top-menu {
+        top: 15px;
+        left: 20px;
+        gap: 20px;
+      }
+      .logout-btn {
+        top: 15px;
+        right: 20px;
+        font-size: 0.9rem;
+        padding: 8px 14px;
+      }
+      .logo-container {
+        width: 120px;
+        height: 120px;
+      }
+      .logo img {
+        width: 100px;
+        height: 100px;
+      }
+      .info-box, .profile-popup {
+        width: 90%;
+        padding: 20px;
+      }
+      .info-content h2 { font-size: 1.5rem; }
+      .info-content p { font-size: 1rem; }
+      .reel-card { font-size: 3rem; height: 150px; }
+    }
+  </style>
+</head>
+<body>
+  <button class="logout-btn" onclick="logout()">Logout</button>
+  <div class="top-menu">
+    <a onclick="showProfile()">Profile</a>
+    <a href="#grid">Explore</a>
+  </div>
+
+  <div class="profile-popup" id="profilePopup">
+    <h3>User Info</h3>
+    <p id="userName"></p>
+    <p id="userEmail"></p>
+  </div>
+
+  <div class="logo" id="logoSection">
+    <div class="logo-container" onclick="showInfoBox()">
+      <img src="logo.jpg" alt="Learn Magic with PRITHIV" />
+    </div>
+  </div>
+
+  <div class="info-box" id="infoBox">
+    <button class="close-btn" onclick="closeInfoBox()">×</button>
+    <h3>About This Website</h3>
+    <p>This platform teaches magic tricks for all levels. Learn sleight of hand, math‑based illusions, and card tricks in a fun and easy way.</p>
+  </div>
+
+  <div class="grid-container" id="grid">
+    <div class="card" id="basicCard"><span>Basics of Magic</span><img src="basic.jpg" alt="Basics"></div>
+    <div class="card" id="trickCard"><span>Trick Videos</span><img src="tricks.jpg" alt="Tricks"></div>
+    <div class="card"><span>Tutorials</span><img src="tutorials.jpeg" alt="Tutorials"></div>
+  </div>
+
+  <div class="reel-container" id="reelView">
+    <div class="reel-card" id="reel1">1</div>
+    <div class="reel-card" id="reel2">2</div>
+    <button class="back-btn" onclick="returnToGrid()">Back</button>
+  </div>
+
+  <div class="video-container" id="videoView">
+    <video id="videoPlayer" controls playsinline></video>
+    <button class="back-btn close-video" onclick="backToReels()">Back</button>
+  </div>
+
+  <div class="info-content" id="infoContent">
+    <h2>Is magic an illusion or a trick?</h2>
+    <p>Magic is fundamentally the art of illusion—combining sleight‑of‑hand, theatrical storytelling, and psychological misdirection to evoke wonder.</p>
+    <p>In ancient Egypt, magicians like Djedi (around 2700 BCE) performed early cup‑and‑ball illusions—a precursor to entertainment magic.</p>
+    <p>Jean‑Eugène Robert‑Houdin (1805–1871), the “father of modern magic”, transitioned magic from street fairs to formal theaters, emphasizing elegance and craftsmanship.</p>
+    <p>Harry Houdini (1874–1926), who took his stage name from Robert‑Houdin, became world‑famous for daring escapes, debunking spiritualists along the way.</p>
+    <p>David Copperfield (b. 1956) revolutionized stage illusion with grand spectacles like making the Statue of Liberty vanish and walking through the Great Wall of China.</p>
+    <button class="back-btn" onclick="returnToGrid()">Back</button>
+  </div>
+
+  <div class="contact">
+    <h2>Contact</h2>
+    <a href="mailto:005prithivraj@gmail.com"><img src="https://cdn-icons-png.flaticon.com/512/561/561127.png" alt="Email"></a>
+    <a href="https://instagram.com/__prithivraj" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram"></a>
+  </div>
+
+  <script>
+    const grid = document.getElementById('grid'),
+          reel = document.getElementById('reelView'),
+          videoView = document.getElementById('videoView'),
+          infoView = document.getElementById('infoContent'),
+          player = document.getElementById('videoPlayer');
+
+    document.getElementById('basicCard').onclick = () => {
+      grid.style.display = 'none';
+      reel.style.display = 'none';
+      videoView.style.display = 'none';
+      infoView.style.display = 'block';
+    };
+
+    document.getElementById('trickCard').onclick = () => {
+      grid.style.display = 'none';
+      infoView.style.display = 'none';
+      reel.style.display = 'flex';
+    };
+
+    document.getElementById('reel1').onclick = () => playVideo('trick1.mp4');
+    document.getElementById('reel2').onclick = () => playVideo('trick2.mp4');
+
+    function playVideo(src) {
+      infoView.style.display = 'none';
+      reel.style.display = 'none';
+      player.src = src;
+      videoView.style.display = 'block';
+      player.load();
+      player.play().catch(console.error);
+    }
+
+    function backToReels() {
+      player.pause();
+      player.src = '';
+      videoView.style.display = 'none';
+      reel.style.display = 'flex';
+    }
+
+    function returnToGrid() {
+      player.pause();
+      player.src = '';
+      videoView.style.display = 'none';
+      reel.style.display = 'none';
+      infoView.style.display = 'none';
+      grid.style.display = 'grid';
+    }
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('visible');
+      });
+    }, { threshold: 0.2 });
+    document.querySelectorAll('.card').forEach(card => observer.observe(card));
+
+    const loggedInUser = localStorage.getItem('loggedInUser');
+    if (!loggedInUser) location.href = 'index.html';
+    const user = JSON.parse(localStorage.getItem(loggedInUser));
+    if (user) {
+      document.getElementById('userName').innerText = 'Username: ' + user.username;
+      document.getElementById('userEmail').innerText = 'Email: ' + user.email;
+    }
+
+    function logout() {
+      localStorage.removeItem('loggedInUser');
+      location.href = 'index.html';
+    }
+
+    function showProfile() {
+      const p = document.getElementById('profilePopup');
+      p.style.display = p.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function showInfoBox() {
+      document.getElementById('logoSection').style.display = 'none';
+      document.getElementById('infoBox').classList.add('show');
+    }
+
+    function closeInfoBox() {
+      document.getElementById('infoBox').classList.remove('show');
+      setTimeout(() => document.getElementById('logoSection').style.display = 'flex', 300);
+    }
+  </script>
+</body>
+</html>
